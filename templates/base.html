@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>R-flix</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+
+        .header {
+            background-color: #2c3e50;
+            padding: 1rem;
+            color: white;
+            margin-bottom: 2rem;
+        }
+
+        .header a {
+            color: white;
+            text-decoration: none;
+            margin-right: 1rem;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+        }
+
+        .header a:hover {
+            background-color: #34495e;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .messages {
+            list-style: none;
+            padding: 0;
+        }
+
+        .messages li {
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 4px;
+        }
+
+        .messages .success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .messages .error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .movie-item {
+            background-color: white;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        select {
+            padding: 0.5rem;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+
+        form {
+            margin-bottom: 1rem;
+        }
+
+        .profile-info {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 1rem;
+        }
+
+        .auth-form {
+            max-width: 400px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 2rem;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        {% if user.is_authenticated %}
+            <a href="{% url 'profile' %}">Profile</a>
+            <a href="{% url 'movies' %}">Movies</a>
+            <a href="{% url 'recommendations' %}">Recommendations</a>
+            <a href="{% url 'movie_parties' %}">Movie Parties</a>
+            <a href="{% url 'system_report' %}">System Report</a>
+            <a href="{% url 'logout' %}">Logout</a>
+        {% else %}
+            <a href="{% url 'login' %}">Login</a>
+            <a href="{% url 'signup' %}">Sign Up</a>
+        {% endif %}
+    </div>
+
+    <div class="container">
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        
+        {% block content %}
+        {% endblock %}
+    </div>
+</body>
+</html>

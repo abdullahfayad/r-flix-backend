@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="parties-container">
+    <h2>Movie Parties</h2>
+
+    <div class="create-party">
+        <form method="post" action="{% url 'movie_parties' %}">
+            {% csrf_token %}
+            <button type="submit" name="create_party" class="create-button">Create New Party</button>
+        </form>
+    </div>
+
+    <div class="parties-section">
+        <h3>Your Parties</h3>
+        <div class="party-list">
+            {% for party in joined_parties %}
+            <div class="party-item">
+                <div class="party-info">
+                    <h4>Party #{{ party.id }}</h4>
+                    <p>Members: {{ party.members.count }}/10</p>
+                    <div class="member-list">
+                        <strong>Members:</strong>
+                        {% for member in party.members.all %}
+                            <span class="member-tag">{{ member.username }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="party-actions">
+                    <a href="{% url 'party_recommendations' party.id %}" class="action-form">View Recommendations</a>
+                    <form method="post" action="{% url 'leave_party' party.id %}" class="action-form">
+                        {% csrf_token %}
+                        <button type="submit" class="leave-button">Leave Party</button>
+                    </form>
+                </div>
+            </div>
+            {% empty %}
+            <p class="empty-message">You haven't joined any parties yet.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="parties-section">
+        <h3>Available Parties</h3>
+        <div class="party-list">
+            {% for party in other_parties %}
+            <div class="party-item">
+                <div class="party-info">
+                    <h4>Party #{{ party.id }}</h4>
+                    <p>Members: {{ party.members.count }}/10</p>
+                    <div class="member-list">
+                        <strong>Members:</strong>
+                        {% for member in party.members.all %}
+                            <span class="member-tag">{{ member.username }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="party-actions">
+                    {% if party.members.count < 10 %}
+                    <form method="post" action="{% url 'join_party' party.id %}" class="action-form">
+                        {% csrf_token %}
+                        <button type="submit" class="join-button">Join Party</button>
+                    </form>
+                    {% else %}
+                    <button disabled class="join-button disabled">Party Full</button>
+                    {% endif %}
+                </div>
+            </div>
+            {% empty %}
+            <p class="empty-message">No other parties available.</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<style>
+    .view-button {
+        background-color: #3498db;
+        color: white;
+        padding: 8px 16px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    .view-button:hover {
+        background-color: #2980b9;
+    }
+
+    .party-actions {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+    }
+
+    .party-actions form {
+        margin: 0;
+    }
+
+    .party-actions a,
+    .party-actions button {
+        padding: 8px 16px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 1em;
+        text-decoration: none;
+        display: inline-block;
+    }
+</style>
+{% endblock %} 

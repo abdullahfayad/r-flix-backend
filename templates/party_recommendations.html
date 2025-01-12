@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="party-recommendations-container">
+    <div class="party-header">
+        <h2>Party #{{ party.id }} Recommendations</h2>
+        <a href="{% url 'movie_parties' %}" class="back-button">← Back to Parties</a>
+    </div>
+
+    <div class="members-section">
+        <h3>Party Members</h3>
+        <div class="member-list">
+            {% for member in members %}
+                <span class="member-tag">{{ member.username }}</span>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="recommendations-section">
+        <h3>Top Movies</h3>
+        <div class="recommendations-list">
+            {% for movie in recommendations %}
+            <div class="movie-item">
+                <h4>{{ movie.title }} ({{ movie.year }})</h4>
+                <div class="ratings-info">
+                    <div class="rating-box">
+                        <span class="rating-label">Party Rating:</span>
+                        <span class="rating-value">{{ movie.party_rating|floatformat:2 }}</span>
+                    </div>
+                    <div class="rating-box">
+                        <span class="rating-label">Global Rating:</span>
+                        <span class="rating-value">{{ movie.rating|floatformat:2 }}</span>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <p class="empty-message">No recommendations available for this party yet.</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<style>
+    .party-recommendations-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .party-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+    }
+
+    .back-button {
+        text-decoration: none;
+        color: #3498db;
+        font-weight: bold;
+    }
+
+    .members-section {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 30px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .member-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .member-tag {
+        background: #f0f0f0;
+        padding: 5px 15px;
+        border-radius: 20px;
+        font-size: 0.9em;
+    }
+
+    .movie-item {
+        background: white;
+        padding: 20px;
+        margin-bottom: 15px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .movie-item h4 {
+        margin: 0 0 15px 0;
+        color: #2c3e50;
+    }
+
+    .ratings-info {
+        display: flex;
+        gap: 20px;
+    }
+
+    .rating-box {
+        flex: 1;
+        background: #f8f9fa;
+        padding: 10px;
+        border-radius: 4px;
+    }
+
+    .rating-label {
+        display: block;
+        font-size: 0.9em;
+        color: #666;
+        margin-bottom: 5px;
+    }
+
+    .rating-value {
+        font-size: 1.2em;
+        font-weight: bold;
+        color: #2c3e50;
+    }
+
+    .empty-message {
+        text-align: center;
+        color: #666;
+        padding: 20px;
+    }
+</style>
+{% endblock %} 
