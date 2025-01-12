@@ -1,3 +1,8 @@
-Django>=4.2
-pytz>=2023.3
-psycopg2-binary
+asgiref==3.8.1
+Django==5.1.4
+psycopg2==2.9.10
+psycopg2-binary==2.9.10
+python-dotenv==1.0.1
+pytz==2024.2
+setuptools==75.8.0
+sqlparse==0.5.3
